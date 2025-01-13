@@ -1,43 +1,42 @@
+#include <vector>
 #include <iostream>
-#include <utility>
 using namespace std;
 
-pair<int, int> maxmin4(int lim_inf, int lim_sup, int max, int min) {
-    int max = vector[0];
-    int min = vector[0];
-    int lim_inf = vector[0];
-    int lim_sup = vector[size];
-    
-    if(lim_sup - lim_inf <= 1){
-        if(vector[lim_inf - 1] < vector[lim_sup - 1]){
-            max = vector[lim_sup - 1];
-            min = vector[lim_inf - 1];
-        } else {
-            max = vector[lim_inf - 1];
-            min = vector[lim_sup - 1];
+vector<int> maxmin4(const vector<int>& v, int linf, int lsup) {
+    vector<int> maxMin(2); // c1: 1
+
+    if ((lsup - linf) <= 1) { // c2: 0 ou 1
+        if (v[linf] < v[lsup]) { // c3: 0 ou 1
+            maxMin[0] = v[lsup]; // c4: 0 ou 1
+            maxMin[1] = v[linf]; // c5: 0 ou 1
+        } else { // c6: 0 ou 1
+            maxMin[0] = v[linf]; // c7: 0 ou 1
+            maxMin[1] = v[lsup]; // c8: 0 ou 1
         }
-    }
-    int half = (lim_inf + lim_sup)/2;
-    maxmin4(lim_inf, meio, max1, min1);
-    maxmin4(meio + 1, lim_sup, max2, min2);
-    if (max1 > max2){
-        max = max1;
-    } else {
-        max = max2;
-    }
-    if (max1 < max2){
-        min = min1;
-    } else {
-        min = min2;
+    } else { // c9: 0 ou 1
+        int meio = (linf + lsup) / 2; // c10: 0 ou 1
+
+        vector<int> maxMinLeft = maxmin4(v, linf, meio); // c11: T(n/2)
+        vector<int> maxMinRight = maxmin4(v, meio + 1, lsup); // c12: T(n/2)
+
+        // Combina os resultados
+        maxMin[0] = max(maxMinLeft[0], maxMinRight[0]); // c13: 0 ou 1
+        maxMin[1] = min(maxMinLeft[1], maxMinRight[1]); // c14: 0 ou 1
     }
 
-    return {max, min};
+    return maxMin; // c15: 1
 }
 
-int main(){
-    int vector[] = {3, 4, 2, 1, 6, 3, 12, 7, 5, 8};
-    int size = sizeof(vector)/sizeof(vector[0]);
-    pair<int, int> result = maxmin4(vector, size);
-    cout << "Max: " << result.first << " Min: " << result.second << endl;
+int main() {
+    // Exemplo de uso
+    vector<int> v = {3, 1, 4, 12, 5, 9, 2, 0, 5};
+    int linf = 0;
+    int lsup = v.size() - 1;
+
+    vector<int> result = maxmin4(v, linf, lsup);
+
+    cout << "Máximo: " << result[0] << endl;
+    cout << "Mínimo: " << result[1] << endl;
+
     return 0;
 }
