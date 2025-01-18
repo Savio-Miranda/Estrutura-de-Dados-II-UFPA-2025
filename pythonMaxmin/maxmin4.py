@@ -1,8 +1,8 @@
 def maxmin4(vector: list, linf: int, lsup: int):
     """
-    Esta função tem custo 2T(n/2) + O(1), pois divide o vetor em dois
-    a cada recursão. No entanto, resolvendo a recorrência temos que
-    seu custo é linear.
+    Esta função tem custo 2T(n/2) + O(1), pois divide o vetor em dois a cada
+    recursão. No entanto, resolvendo a recorrência pelo Teorema Mestre temos
+    que seu custo é n*log(n).
     """
     maxmin = [0, 0]
     if (lsup - linf) <= 1:
